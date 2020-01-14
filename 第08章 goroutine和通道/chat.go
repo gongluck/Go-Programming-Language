@@ -32,6 +32,7 @@ func main() {
 	}
 }
 
+// 广播
 func broadcaster() {
 	clients := make(map[client]bool)
 	for {
@@ -49,6 +50,7 @@ func broadcaster() {
 	}
 }
 
+// 处理每个客户端连接
 func handleConn(conn net.Conn) {
 	ch := make(chan string)
 	go clientWriter(conn, ch)
@@ -68,6 +70,7 @@ func handleConn(conn net.Conn) {
 	conn.Close()
 }
 
+// 从ch中读数据并往客户端连接中写
 func clientWriter(conn net.Conn, ch <-chan string) {
 	for msg := range ch {
 		fmt.Fprintln(conn, msg)

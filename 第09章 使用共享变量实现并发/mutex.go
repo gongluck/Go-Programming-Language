@@ -8,6 +8,7 @@ import (
 var (
 	//mu   sync.Mutex
 	mu   sync.RWMutex
+	once sync.Once
 	data int
 )
 
@@ -31,8 +32,12 @@ func setData(param int) {
 	data = param
 }
 
+func doOnce() {
+	fmt.Println("*********************just do once*********************")
+}
 func ChangeDataForTimes(n int, ch chan bool) {
 	for i := 0; i < 10000; i++ {
+		once.Do(doOnce)
 		SetData(i)
 		fmt.Println("set data to ", i, "by", n, "goroutine")
 	}
