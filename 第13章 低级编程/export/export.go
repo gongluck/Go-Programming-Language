@@ -1,4 +1,11 @@
 //导出C库
+//go build -buildmode=c-shared -o export.so export.go
+//go build -buildmode=c-archive -o export.a export.go
+
+//查看函数表
+//nm -g --defined-only export.so
+//nm -g --defined-only export.a
+
 package main
 
 import "C"
