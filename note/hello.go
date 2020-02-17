@@ -74,4 +74,42 @@ LABEL1:
 		}
 	}
 	fmt.Println("end")
+
+	arr := [...]int{1, 2, 3: 6, 5, 7, 2, 9}
+	fmt.Println(arr)
+	arrlen := len(arr)
+	for i := 0; i < arrlen; i++ {
+		for j := i + 1; j < arrlen; j++ {
+			if arr[i] > arr[j] {
+				arr[i], arr[j] = arr[j], arr[i]
+			}
+		}
+	}
+	fmt.Println(arr)
+
+	slice := arr[2:5]
+	fmt.Println(slice)
+
+	slice = make([]int, 3, 5)
+	//slice[4] = 8 //error
+	slice = append(slice, 8)
+	fmt.Println(slice)
+
+	var m map[int]string = make(map[int]string)
+	m[1] = "hello"
+	m[2] = "world"
+	m[4] = "golang"
+	delete(m, 2)
+	for k, v := range m {
+		fmt.Println(k, v)
+	}
+
+	var mm map[int]map[int]string
+	mm = make(map[int]map[int]string)
+	v, ok := mm[2]
+	if !ok {
+		mm[2] = make(map[int]string)
+		v = mm[2]
+	}
+	fmt.Println(v)
 }
