@@ -112,4 +112,32 @@ LABEL1:
 		v = mm[2]
 	}
 	fmt.Println(v)
+
+	l, o := A(10, 20, "test")
+	B()
+	fmt.Println(l, o)
+
+	p := person{Name: "joe"}
+	p.Age = 10
+	fmt.Println(p)
+}
+
+func A(a, b int, c string) (int, string) {
+	defer fmt.Println("end A")
+	a, b, c = 1, 2, "hello"
+	return a, c
+}
+
+func B() {
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println("recover in B")
+		}
+	}()
+	panic("panic in B")
+}
+
+type person struct {
+	Name string
+	Age  int
 }
