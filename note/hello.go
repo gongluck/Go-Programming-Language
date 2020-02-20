@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"reflect"
 )
 
 const PI = 3.14
@@ -120,6 +121,17 @@ LABEL1:
 	p := person{Name: "joe"}
 	p.Age = 10
 	fmt.Println(p)
+
+	p.print()
+
+	var print = person{}
+	print.print()
+
+	value := reflect.ValueOf(&print.Age)
+	if value.Kind() == reflect.Ptr && value.Elem().CanSet() {
+		value.Elem().SetInt(100)
+	}
+	info(print)
 }
 
 func A(a, b int, c string) (int, string) {
@@ -140,4 +152,34 @@ func B() {
 type person struct {
 	Name string
 	Age  int
+}
+
+func (p person) print() {
+	fmt.Println("print person")
+}
+
+type canprint interface {
+	print()
+}
+
+func info(o interface{}) {
+	t := reflect.TypeOf(o)
+	fmt.Println("Type:", t.Name())
+
+	if k := t.Kind(); k != reflect.Struct {
+		fmt.Println("Not Struct")
+		return
+	}
+
+	v := reflect.ValueOf(o)
+
+	fmt.Println("fields:")
+	for i := 0; i < v.NumField(); i++ {
+		fmt.Println("Name:", t.Field(i).Name, " Type:", t.Field(i).Type, " Value:", v.Field(i).Interface())
+	}
+
+	fmt.Println("methods:")
+	for i := 0; i < t.NumMethod(); i++ {
+		fmt.Println("Name:", t.Method(i).Name, " Type:", t.Method(i).Type)
+	}
 }
