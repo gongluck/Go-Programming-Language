@@ -132,6 +132,17 @@ LABEL1:
 		value.Elem().SetInt(100)
 	}
 	info(print)
+
+	ch := make(chan bool)
+	go func() {
+		fmt.Println("Go Go Go")
+		ch <- true
+		close(ch)
+	}()
+	//<-ch
+	for chh := range ch {
+		fmt.Println(chh)
+	}
 }
 
 func A(a, b int, c string) (int, string) {
